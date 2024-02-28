@@ -1,7 +1,11 @@
+"use client";
+import { svgs } from "@/assets";
+import Image from "next/image";
+
 export const NavBar = () => {
   return (
     <nav>
-      <h1>navb=</h1>
+      <h1><Image src={svgs.logo} alt="Logo" /></h1>
     </nav>
   );
 };
@@ -21,7 +25,7 @@ export const SectionStore = () => {
 };
 export const Footer = () => {
   return (
-    <nav>
+    <nav style={{border: '1px solid gray', borderColor: 'red'}}>
       <h1>navb=</h1>
     </nav>
   );
