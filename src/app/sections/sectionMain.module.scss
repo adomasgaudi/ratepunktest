@@ -1,0 +1,202 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputEmail {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  color: black;
+}
+
+.submitButton {
+  background-color: #3b82f6;
+  color: black;
+  padding: 1rem;
+  border-radius: 0.375rem;
+}
+
+.messageSuccess {
+  color: #16a34a;
+}
+
+.messageError {
+  color: #dc2626;
+}
+
+.mainContainer {
+  background-color: #f8cc5d;
+  min-height: 100vh;
+  border: 1px solid #1F343E;
+  // padding: 3rem 2rem;
+}
+
+.contentMaxWidth {
+  max-width: 1200px;
+  padding: 64px 24px 64px 24px;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    padding: 32px 16px 32px 16px;
+  }
+}
+
+.flexColumnSection,
+.flexRowLargeScreen {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .flexRowLargeScreen {
+    flex-direction: row;
+  }
+}
+
+.card {
+  background-color: #f8f4f9;
+  border-radius: 16px;
+  padding: 5%;
+  width: 50%;
+  border: 1px solid #1f343e;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+.cardTitle {
+  margin-bottom: 1rem;
+  font-family: "Caveat Brush", cursive;
+  font-weight: normal;
+  font-size: 48px;
+  color: #1f343e;
+  letter-spacing: 0;
+  // line-height: 72px;
+  text-transform: uppercase;
+  @media (max-width: 768px) {
+    font-family: "Caveat Brush", cursive;
+    font-weight: regular;
+    font-size: 32px;
+    color: #1F343E;
+    letter-spacing: 0;
+  }
+}
+
+.cardText,
+.smallText {
+  color: #4b5563;
+  margin-bottom: 1rem;
+  font-family: "Noto Sans", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  color: #1f343e;
+  letter-spacing: 0;
+  @media (max-width: 768px) {
+    font-weight: regular;
+    font-size: 16px;
+    color: #1F343E;
+  }
+}
+
+.smallText {
+  font-size: 0.75rem;
+  margin-top: 72px;
+  font-family: 'Noto Sans', sans-serif;
+  font-weight: normal;
+  font-size: 16px;
+  color: #6D7A80;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin-top: 72px;
+}
+
+.stepContainer {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    // align-items: flex-start;
+  }
+}
+
+.stepForward {
+  flex-direction: row;
+}
+
+.stepBackward {
+  flex-direction: row-reverse;
+}
+
+.stepImage {
+  width: 144px;
+}
+
+.stepContent {
+  color: #1f343e;
+  font-family: "Noto Sans", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: 32px;
+  @media (max-width: 768px) {
+    text-align: center;
+    font-size: 16px;
+  }
+}
+
+.stepTag {
+  font-family: "Noto Sans", sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  color: #4eb3e3;
+  line-height: 32px;
+  text-transform: uppercase;
+}
+
+.stepTitle {
+  font-weight: bold;
+  font-family: "Caveat Brush", cursive;
+  font-weight: normal;
+  font-size: 32px;
+  color: #1f343e;
+  letter-spacing: 0;
+  line-height: 48px;
+  text-transform: uppercase;
+  margin: 16px 0;
+  @media (max-width: 768px) {
+    margin: 5px 0;
+  }
+}
+
+.stepsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  padding-top: 64px;
+  width: 80%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.stepsWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 50%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card {
+    margin-bottom: 0;
+  }
+}

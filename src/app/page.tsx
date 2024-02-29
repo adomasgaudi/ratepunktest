@@ -1,7 +1,8 @@
 
 import st from './page.module.sass'
-import { Footer, SectionMain, SectionStore } from './sections';
+import { Footer, SectionStore } from './sections';
 import { NavBar } from './sections/nav';
+import { SectionMain } from './sections/sectionMain';
 
 export default function Home() {
   return (
