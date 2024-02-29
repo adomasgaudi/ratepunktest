@@ -5,11 +5,12 @@ import st from "./sectionMain.module.scss";
 import { svgs } from "@/assets";
 import Image from "next/image";
 import { useIsMobile } from "../hooks";
-const validateEmail = (email: any) => {
-  const re =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
-};
+import * as Yup from "yup";
+
+const emailSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email address").required("Required"),
+});
+
 export const Form = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState<string | null>(null);
@@ -22,39 +23,45 @@ export const Form = () => {
   const handleFormSubmit = async (e: any) => {
     e.preventDefault();
 
-    if (!email || !validateEmail(email)) {
-      setMessage("Please enter a valid email address.");
-      return;
-    }
+    emailSchema
+      .validate({ email }, { abortEarly: false })
+      .then(async () => {
+        try {
+          const binId = "65db89aadc74654018a9b897";
+          const masterKey =
+            "$2a$10$4c7GiSM5.DoYMaCbJFt0n.4FWIRH0UPT/UdkiWmWtp7FK2eOTsD02";
+          const apiEndpoint = `https://api.jsonbin.io/v3/b/${binId}`;
 
-    try {
-      const binId = "65db89aadc74654018a9b897";
-      const masterKey =
-        "$2a$10$4c7GiSM5.DoYMaCbJFt0n.4FWIRH0UPT/UdkiWmWtp7FK2eOTsD02";
-      const apiEndpoint = `https://api.jsonbin.io/v3/b/${binId}`;
+          const response = await axios.put(
+            apiEndpoint,
+            { email },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "X-Master-Key": masterKey,
+              },
+            }
+          );
 
-      const response = await axios.put(
-        apiEndpoint,
-        { email },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-Master-Key": masterKey,
-          },
+          if (response.data && response.status === 200) {
+            setMessage("Success! Your email has been saved.");
+          } else {
+            setMessage("An error occurred. Please try again.");
+          }
+        } catch (error: any) {
+          console.error("Error submitting form:", error);
+          setMessage(
+            error.response?.data?.message ||
+              "An error occurred. Please try again."
+          );
         }
-      );
-      console.log("response", response);
-      if (response.data && response.status === 200) {
-        setMessage("Success! Your email has been saved.");
-      } else {
-        setMessage("An error occurred. Please try again.");
-      }
-    } catch (error: any) {
-        console.error("Error submitting form:", error);
-        setMessage(
-            error.response?.data?.message || "An error occurred. Please try again."
-        );
-    }
+      })
+      .catch((err) => {
+        const errorMessage = err.errors
+          ? err.errors[0]
+          : "An error occurred. Please try again.";
+        setMessage(errorMessage);
+      });
   };
 
   return (
@@ -68,7 +75,7 @@ export const Form = () => {
           className={st.inputEmail}
           required
         />
-        <Image src={svgs.email} alt="email" className={st.emailIcon}/>
+        <Image src={svgs.email} alt="email" className={st.emailIcon} />
       </div>
       <button type="submit" className={st.submitButton}>
         Get Referral Link
@@ -113,9 +120,9 @@ export const SectionMain = () => {
             <div>
               <h2 className={st.cardTitle}>REFER FRIENDS AND GET REWARDS</h2>
               <p className={st.cardText}>
-                Refer your friends to us and earn hotel booking vouchers. We&apos;ll
-                give you 1 coin for each friend that installs our extension.
-                Minimum cash-out at 20 coins.
+                Refer your friends to us and earn hotel booking vouchers.
+                We&apos;ll give you 1 coin for each friend that installs our
+                extension. Minimum cash-out at 20 coins.
               </p>
               <Form />
             </div>
