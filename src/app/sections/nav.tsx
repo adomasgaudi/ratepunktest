@@ -39,7 +39,7 @@ export const NavBar = () => {
   const [activeItem, setActiveItem] = useState<string>(NAVITEMS[0]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const isMobile = useIsMobile(768);
+  const isMobile = useIsMobile(1050);
 
   const handleMenuClick = () => {
     setIsModalOpen(!isModalOpen);
