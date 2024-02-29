@@ -1,14 +1,15 @@
 
 import st from './page.module.sass'
-import { Footer, NavBar, SectionMain, SectionStore } from './sections';
+import { Footer, SectionMain, SectionStore } from './sections';
+import { NavBar } from './sections/nav';
 
 export default function Home() {
   return (
-    <main className={st.test}>
-      <NavBar></NavBar>
-      <SectionMain></SectionMain>
-      <SectionStore></SectionStore>
-      <Footer></Footer>
+    <main>
+      <NavBar />
+      <SectionMain />
+      <SectionStore />
+      <Footer />
     </main>
   );
 }

@@ -1,20 +1,18 @@
-
+@import url("https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-  }
-  
-  html,
-  body {
-    min-height: 100vh;
-    max-width: 100vw;
-    overflow-x: hidden;
-  }
-  
-  
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-  
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  min-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}/*# sourceMappingURL=globals.css.map */
