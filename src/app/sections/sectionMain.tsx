@@ -5,14 +5,17 @@ import st from "./sectionMain.module.scss";
 import { svgs } from "@/assets";
 import Image from "next/image";
 import { useIsMobile } from "../hooks";
-
+const validateEmail = (email: any) => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
 export const Form = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
 
   const handleInputChange = (e) => {
     setEmail(e.target.value);
-    setMessage(null); // Reset message when user starts typing again
+    setMessage(null); 
   };
 
   const handleFormSubmit = async (e) => {
@@ -24,10 +27,10 @@ export const Form = () => {
     }
 
     try {
-      // Set your JSONBin.io API endpoint and headers here
-      const binId = "65db89aadc74654018a9b897"; // Replace with your actual Bin ID from JSONBin.io
+      
+      const binId = "65db89aadc74654018a9b897"; 
       const masterKey =
-        "$2a$10$4c7GiSM5.DoYMaCbJFt0n.4FWIRH0UPT/UdkiWmWtp7FK2eOTsD02"; // Replace with your actual Master Key from JSONBin.io
+        "$2a$10$4c7GiSM5.DoYMaCbJFt0n.4FWIRH0UPT/UdkiWmWtp7FK2eOTsD02"; 
       const apiEndpoint = `https://api.jsonbin.io/v3/b/${binId}`;
 
       const response = await axios.put(
@@ -37,7 +40,6 @@ export const Form = () => {
           headers: {
             "Content-Type": "application/json",
             "X-Master-Key": masterKey,
-            // 'X-Bin-Versioning': 'false', // Optional: Include if you want to turn off versioning
           },
         }
       );
