@@ -2,26 +2,16 @@
 import { svgs } from "@/assets";
 import Image from "next/image";
 import st from "./sections.module.sass";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useIsMobile } from "../hooks";
+import { NavItemProps } from "../types";
+import { Modal } from "../components";
 
-type NavItemProps = {
-  text: string;
-  active: boolean;
-  onClick: () => void;
-};
+const NAVITEMS = ["Chrome Extension", "Price Comparison", "Blog"];
 
-export const NavItem = ({ text, active, onClick }: NavItemProps) => (
+export const NavItem = ({ text, active, onClick, modal }: NavItemProps) => (
   <li
-    className={st.navLi}
-    onClick={onClick}
-    style={{ color: active ? "#4EB3E3" : "#434A54" }}
-  >
-    <a href="#">{text}</a>
-  </li>
-);
-export const ModalNavItem = ({ text, active, onClick }: NavItemProps) => (
-  <li
-    className={st.modalNavLi}
+    className={modal ? st.modalNavLi : st.navLi}
     onClick={onClick}
     style={{ color: active ? "#4EB3E3" : "#434A54" }}
   >
@@ -29,34 +19,26 @@ export const ModalNavItem = ({ text, active, onClick }: NavItemProps) => (
   </li>
 );
 
-type ModalProps = {
-  onClose: () => void;
+type HeaderProps = {
   children: React.ReactNode;
 };
 
-const Modal = ({ onClose, children }: ModalProps) => (
-  <div onClick={onClose} className={st.modal}>
-    <div onClick={(e) => e.stopPropagation()}>{children}</div>
-  </div>
+const Header = ({ children }: HeaderProps) => (
+  <header className={st.headerWrap}>
+    <div className={st.headerContainer}>
+      <a href="/" className={st.navbarAnchor}>
+        <Image src={svgs.logo} alt="Logo" />
+      </a>
+      <nav className={st.navbar}>{children}</nav>
+    </div>
+  </header>
 );
 
 export const NavBar = () => {
-  const navItems = ["Chrome Extension", "Price Comparison", "Blog"];
-  const [activeItem, setActiveItem] = useState<string>(navItems[0]);
-  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 800);
+  const [activeItem, setActiveItem] = useState<string>(NAVITEMS[0]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 800);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const isMobile = useIsMobile(768);
 
   const handleMenuClick = () => {
     setIsModalOpen(!isModalOpen);
@@ -64,56 +46,46 @@ export const NavBar = () => {
 
   return (
     <>
-      <header className={st.header}>
-        <a href="/" className={st.navbarAnchor}>
-          <Image src={svgs.logo} alt="Logo" />
-        </a>
-        <nav className={st.navbar}>
-          {isMobile ? (
-            <button onClick={handleMenuClick} className={st.navButton}>
-              <Image src={svgs.menu} alt="Menu" />
-            </button>
-          ) : (
-            <ul className={st.navUl}>
-              {navItems.map((item) => (
-                <NavItem
-                  key={item}
-                  text={item}
-                  active={activeItem === item}
-                  onClick={() => setActiveItem(item)}
-                />
-              ))}
-            </ul>
-          )}
-        </nav>
-      </header>
+      <Header>
+        {isMobile && (
+          <button onClick={handleMenuClick} className={st.navButton}>
+            <Image src={svgs.menu} alt="Menu" />
+          </button>
+        )}
+        {!isMobile && (
+          <ul className={st.navUl}>
+            {NAVITEMS.map((item) => (
+              <NavItem
+                key={item}
+                text={item}
+                active={activeItem === item}
+                onClick={() => setActiveItem(item)}
+              />
+            ))}
+          </ul>
+        )}
+      </Header>
       {isModalOpen && (
         <Modal onClose={handleMenuClick}>
-          <div className={st.modalWrap}>
-            <header className={st.header}>
-              <a href="/" className={st.navbarAnchor}>
-                <Image src={svgs.logo} alt="Logo" />
-              </a>
-              <nav className={st.navbar}>
-                <button onClick={handleMenuClick} className={st.navButton}>
-                  <Image src={svgs.close} alt="Menu" />
-                </button>
-              </nav>
-            </header>
-            <ul className={st.modalNavUl}>
-              {navItems.map((item) => (
-                <ModalNavItem
-                  key={item}
-                  text={item}
-                  active={activeItem === item}
-                  onClick={() => {
-                    setActiveItem(item);
-                    setIsModalOpen(false);
-                  }}
-                />
-              ))}
-            </ul>
-          </div>
+          <Header>
+            <button onClick={handleMenuClick} className={st.navButton}>
+              <Image src={svgs.close} alt="Close" />
+            </button>
+          </Header>
+          <ul className={st.modalNavUl}>
+            {NAVITEMS.map((item) => (
+              <NavItem
+                key={item}
+                text={item}
+                active={activeItem === item}
+                onClick={() => {
+                  setActiveItem(item);
+                  setIsModalOpen(false);
+                }}
+                modal
+              />
+            ))}
+          </ul>
         </Modal>
       )}
     </>
