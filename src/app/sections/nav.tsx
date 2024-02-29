@@ -21,10 +21,11 @@ export const NavItem = ({ text, active, onClick, modal }: NavItemProps) => (
 
 type HeaderProps = {
   children: React.ReactNode;
+  border?: boolean;
 };
 
-const Header = ({ children }: HeaderProps) => (
-  <header className={st.headerWrap}>
+const Header = ({ children, border }: HeaderProps) => (
+  <header className={border ? st.border : ""}>
     <div className={st.headerContainer}>
       <a href="/" className={st.navbarAnchor}>
         <Image src={svgs.logo} alt="Logo" />
@@ -46,7 +47,7 @@ export const NavBar = () => {
 
   return (
     <>
-      <Header>
+      <Header border>
         {isMobile && (
           <button onClick={handleMenuClick} className={st.navButton}>
             <Image src={svgs.menu} alt="Menu" />
@@ -67,25 +68,27 @@ export const NavBar = () => {
       </Header>
       {isModalOpen && (
         <Modal onClose={handleMenuClick}>
-          <Header>
-            <button onClick={handleMenuClick} className={st.navButton}>
-              <Image src={svgs.close} alt="Close" />
-            </button>
-          </Header>
-          <ul className={st.modalNavUl}>
-            {NAVITEMS.map((item) => (
-              <NavItem
-                key={item}
-                text={item}
-                active={activeItem === item}
-                onClick={() => {
-                  setActiveItem(item);
-                  setIsModalOpen(false);
-                }}
-                modal
-              />
-            ))}
-          </ul>
+          <div className={st.border}>
+            <Header>
+              <button onClick={handleMenuClick} className={st.navButton}>
+                <Image src={svgs.close} alt="Close" />
+              </button>
+            </Header>
+            <ul className={st.modalNavUl}>
+              {NAVITEMS.map((item) => (
+                <NavItem
+                  key={item}
+                  text={item}
+                  active={activeItem === item}
+                  onClick={() => {
+                    setActiveItem(item);
+                    setIsModalOpen(false);
+                  }}
+                  modal
+                />
+              ))}
+            </ul>
+          </div>
         </Modal>
       )}
     </>
