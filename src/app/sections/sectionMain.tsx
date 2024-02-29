@@ -7,13 +7,17 @@ import Image from "next/image";
 import { useIsMobile } from "../hooks";
 import * as Yup from "yup";
 
+const BIN_ID = process.env.NEXT_PUBLIC_BIN_ID;
+const MASTER_KEY = `$2a$10$4c7GiSM5.DoYMaCbJFt0n.${process.env.NEXT_PUBLIC_MASTER_KEY_END}`;
+const API_ENDPOINT = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
 const emailSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email address").required("Required"),
 });
-
 export const Form = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState<string | null>(null);
+  const [referralLink, setReferralLink] = useState<string | null>(null);
 
   const handleInputChange = (e: any) => {
     setEmail(e.target.value);
@@ -27,24 +31,20 @@ export const Form = () => {
       .validate({ email }, { abortEarly: false })
       .then(async () => {
         try {
-          const binId = "65db89aadc74654018a9b897";
-          const masterKey =
-            "$2a$10$4c7GiSM5.DoYMaCbJFt0n.4FWIRH0UPT/UdkiWmWtp7FK2eOTsD02";
-          const apiEndpoint = `https://api.jsonbin.io/v3/b/${binId}`;
-
           const response = await axios.put(
-            apiEndpoint,
+            API_ENDPOINT,
             { email },
             {
               headers: {
                 "Content-Type": "application/json",
-                "X-Master-Key": masterKey,
+                "X-Master-Key": MASTER_KEY,
               },
             }
           );
 
           if (response.data && response.status === 200) {
-            setMessage("Success! Your email has been saved.");
+            setMessage("Your email is confirmed!");
+            setReferralLink("https://ratepunk.com/referral"); // This should be set to the actual referral link you receive from the backend
           } else {
             setMessage("An error occurred. Please try again.");
           }
@@ -64,30 +64,63 @@ export const Form = () => {
       });
   };
 
+  const copyToClipboard = (link: string) => {
+    navigator.clipboard.writeText(link).then(
+      () => {
+        // Optionally set a state to show a "Copied!" message
+      },
+      (err) => {
+        console.error("Could not copy text: ", err);
+      }
+    );
+  };
+
   return (
     <form onSubmit={handleFormSubmit} className={st.formContainer}>
-      <div className={st.emailInputWrapper}>
-        <input
-          type="email"
-          value={email}
-          onChange={handleInputChange}
-          placeholder="Enter your email address"
-          className={st.inputEmail}
-          required
-        />
-        <Image src={svgs.email} alt="email" className={st.emailIcon} />
-      </div>
-      <button type="submit" className={st.submitButton}>
-        Get Referral Link
-      </button>
-      {message && (
-        <p
-          className={`${st.message} ${
-            message.startsWith("Success") ? st.messageSuccess : st.messageError
-          }`}
-        >
-          {message}
-        </p>
+      {!referralLink && (
+        <>
+          {message && <p className={st.errorMessage}>{message}</p>}
+          <div className={st.emailInputWrapper}>
+            <input
+              type="email"
+              value={email}
+              onChange={handleInputChange}
+              placeholder="Enter your email address"
+              className={st.inputEmail}
+              required
+            />
+            <Image src={svgs.email} alt="email" className={st.emailIcon} />
+          </div>
+          <button type="submit" className={st.submitButton}>
+            Get Referral Link
+          </button>
+        </>
+      )}
+      {referralLink && (
+        <div className={st.successContainer}>
+          <div className={st.successIconText}>
+            <Image
+              src={svgs.success}
+              alt="success"
+              className={st.successIcon}
+            />
+            <p className={st.successMessage}>{message}</p>
+          </div>
+          <div className={st.referralLinkContainer}>
+            <input
+              type="text"
+              value={referralLink}
+              readOnly
+              className={st.referralLink}
+            />
+            <button
+              onClick={() => copyToClipboard(referralLink)}
+              className={st.copyButton}
+            >
+              Copy
+            </button>
+          </div>
+        </div>
       )}
     </form>
   );
