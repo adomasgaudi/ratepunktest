@@ -12,14 +12,14 @@ const validateEmail = (email: any) => {
 };
 export const Form = () => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState<string | null>(null);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     setEmail(e.target.value);
     setMessage(null);
   };
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = async (e: any) => {
     e.preventDefault();
 
     if (!email || !validateEmail(email)) {
@@ -49,11 +49,11 @@ export const Form = () => {
       } else {
         setMessage("An error occurred. Please try again.");
       }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      setMessage(
-        error.response?.data?.message || "An error occurred. Please try again."
-      );
+    } catch (error: any) {
+        console.error("Error submitting form:", error);
+        setMessage(
+            error.response?.data?.message || "An error occurred. Please try again."
+        );
     }
   };
 
@@ -113,7 +113,7 @@ export const SectionMain = () => {
             <div>
               <h2 className={st.cardTitle}>REFER FRIENDS AND GET REWARDS</h2>
               <p className={st.cardText}>
-                Refer your friends to us and earn hotel booking vouchers. We'll
+                Refer your friends to us and earn hotel booking vouchers. We&apos;ll
                 give you 1 coin for each friend that installs our extension.
                 Minimum cash-out at 20 coins.
               </p>
