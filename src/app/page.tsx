@@ -1,5 +1,4 @@
 
-import st from './page.module.sass'
 import { Footer, SectionStore } from './sections';
 import { NavBar } from './sections/nav';
 import { SectionMain } from './sections/sectionMain';
