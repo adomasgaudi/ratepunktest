@@ -44,7 +44,7 @@ export const Form = () => {
 
           if (response.data && response.status === 200) {
             setMessage("Your email is confirmed!");
-            setReferralLink("https://ratepunk.com/referral"); // This should be set to the actual referral link you receive from the backend
+            setReferralLink("https://ratepunk.com/referral"); 
           } else {
             setMessage("An error occurred. Please try again.");
           }
@@ -67,7 +67,6 @@ export const Form = () => {
   const copyToClipboard = (link: string) => {
     navigator.clipboard.writeText(link).then(
       () => {
-        // Optionally set a state to show a "Copied!" message
       },
       (err) => {
         console.error("Could not copy text: ", err);
