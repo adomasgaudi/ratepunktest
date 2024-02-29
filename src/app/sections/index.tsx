@@ -3,15 +3,15 @@
 export const SectionStore = () => {
   return (
     <nav>
-      <h1>navb=</h1>
+      <h1>Building: Store Section</h1>
     </nav>
   );
 };
 
 export const Footer = () => {
   return (
-    <nav style={{ border: "1px solid gray", borderColor: "red" }}>
-      <h1>navb=</h1>
+    <nav>
+      <h1>Building: Footer</h1>
     </nav>
   );
 };
